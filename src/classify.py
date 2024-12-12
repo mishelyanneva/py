@@ -1,16 +1,5 @@
-
-
 def classify_transaction(description, amount):
-    """
-    Classifies a transaction as Income or Expense with subcategories based on keywords.
 
-    Args:
-        description (str): The description of the transaction.
-        amount (float): The transaction amount.
-
-    Returns:
-        tuple: (category, subcategory)
-    """
     description = description.lower()  # Normalize text
     if amount > 0:
         # Income classification
