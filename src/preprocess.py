@@ -1,6 +1,5 @@
 import re
 from typing import List, Dict, Any, Optional, Union
-
 import nltk
 import numpy as np
 import pandas as pd
@@ -13,7 +12,6 @@ nltk.download('wordnet', quiet=True)
 
 STOP_WORDS = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
-
 
 def clean_text(description: str) -> str:
 
@@ -31,20 +29,17 @@ def normalize_text(description: str) -> str:
     tokens = [lemmatizer.lemmatize(word) for word in tokens]
     return ' '.join(tokens)
 
-
 def feature_extraction(texts: List[str], max_features: int = 500):
 
     vectorizer = TfidfVectorizer(max_features=max_features)
     features = vectorizer.fit_transform(texts)
     return features, vectorizer.get_feature_names_out()
 
-
 def preprocess_text(description: str) -> str:
 
     cleaned = clean_text(description)
     normalized = normalize_text(cleaned)
     return normalized
-
 
 def _convert_to_datetime(series: pd.Series) -> pd.Series:
 
@@ -53,7 +48,6 @@ def _convert_to_datetime(series: pd.Series) -> pd.Series:
     except Exception as e:
         print(f"Datetime conversion warning: {e}")
         return series
-
 
 class FlexibleTableProcessor:
     def __init__(self,
