@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 def generate_report(data):
     # Ensure 'Date' column is datetime format
@@ -92,6 +93,7 @@ def create_summary_bar(data):
     plt.savefig('data/summary_bar.png', format='png', dpi=300)
     plt.close()
 
+
 def create_combined_chart(data):
     # Ensure 'Date' column is datetime format
     data['Date'] = pd.to_datetime(data['Date'], errors='coerce')
@@ -100,13 +102,14 @@ def create_combined_chart(data):
     data['Month'] = data['Date'].dt.to_period('M')
 
     # Create subplots: 3 rows and 1 column (vertically stacked)
-    fig, axs = plt.subplots(3, 1, figsize=(12, 18))
+    fig, axs = plt.subplots(3, 1, figsize=(12, 11))
 
+    # 1. Category-wise Expenses (Stacked Bar Chart)
     category_expenses = data[data['Category'] == 'Expense'].groupby(['Month', 'Subcategory'])[
         'Amount'].sum().unstack().fillna(0)
 
     # Generate a color palette with as many colors as subcategories
-    color_palette = sns.color_palette("Set2", len(category_expenses.columns))  # You can choose any palette you prefer
+    color_palette = sns.color_palette("Set2", len(category_expenses.columns))
 
     # Plot the category-wise expenses with different colors for each subcategory
     category_expenses.plot(kind='bar', stacked=True, ax=axs[0], color=color_palette)
@@ -115,28 +118,44 @@ def create_combined_chart(data):
     axs[0].set_ylabel('Total Expense', fontsize=12)
     axs[0].tick_params(axis='x', rotation=45)
 
-    # 2. Monthly Trends (Stacked Bar Chart)
-    monthly_summary = data.groupby(['Month', 'Category'])['Amount'].sum().unstack().fillna(0)
-    monthly_summary.plot(kind='bar', stacked=True, ax=axs[1], color=['green', 'red'])
+    # 2. Monthly Trends (Side-by-side Bar Chart)
+    monthly_data = data.groupby(['Month', 'Category'])['Amount'].sum().unstack().fillna(0)
+    width = 0.35
+    x = np.arange(len(monthly_data))
+
+    axs[1].bar(x - width / 2, monthly_data['Income'], width, label='Income', color='green')
+    axs[1].bar(x + width / 2, -monthly_data['Expense'], width, label='Expense', color='red')
+
+    axs[1].set_xticks(x)
+    axs[1].set_xticklabels(monthly_data.index)
     axs[1].set_title('Monthly Income and Expense Trends', fontsize=14)
     axs[1].set_xlabel('Month', fontsize=12)
-    axs[1].set_ylabel('Total Amount', fontsize=12)
+    axs[1].set_ylabel('Amount', fontsize=12)
+    axs[1].legend()
     axs[1].tick_params(axis='x', rotation=45)
 
-    # 3. Income-Expense Ratio (Bar Chart)
-    monthly_income_expense_ratio = data.groupby('Month').apply(
-        lambda x: x[x['Category'] == 'Income']['Amount'].sum() /
-                  abs(x[x['Category'] == 'Expense']['Amount'].sum()) if x[x['Category'] == 'Expense']['Amount'].sum() != 0 else 0
-    )
-    axs[2].bar(monthly_income_expense_ratio.index.astype(str), monthly_income_expense_ratio.values, color='green')
-    axs[2].set_title('Income-Expense Ratio by Month', fontsize=14)
-    axs[2].set_xlabel('Month', fontsize=12)
-    axs[2].set_ylabel('Income/Expense Ratio', fontsize=12)
-    axs[2].tick_params(axis='x', rotation=45)
+    income_expense_summary = data.groupby(['Month', 'Category'])['Amount'].sum().unstack().fillna(0)
+
+    # Calculate savings as Income plus Expense (since Expense is negative)
+    income_expense_summary['Savings'] = income_expense_summary['Income'] + income_expense_summary['Expense']
+
+    # If there are months without Income or Expense, set them to 0
+    income_expense_summary = income_expense_summary.fillna(0)
+
+    table_data = income_expense_summary[['Income', 'Expense', 'Savings']].reset_index()
+
+    # Create the table in the third subplot
+    axs[2].axis('off')
+    axs[2].table(cellText=table_data.values,
+                 colLabels=['Month', 'Income', 'Expense', 'Savings'],
+                 cellLoc='center',
+                 loc='center',
+                 colColours=['#f1f1f1'] * 4)
+
+    axs[2].set_title('Income, Expense, and Savings Summary by Month', fontsize=14)
 
     # Adjust layout to avoid overlap
     plt.tight_layout()
 
     # Save the combined chart as a PNG file
     plt.savefig('data/combined_analysis.png', format='png', dpi=300)
-
