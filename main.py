@@ -9,7 +9,7 @@ from src.classify import classify_transaction
 from src.visualize import (
     generate_report,
     create_summary_chart,
-    create_summary_barchart,
+    create_summary_bar,
     create_combined_chart,
 )
 
@@ -63,7 +63,7 @@ def main():
         # Create visualizations
         print("Creating summary chart visualizations...")
         create_summary_chart(data)  # General summary chart
-        create_summary_barchart(data)    # Monthly pie charts (new functionality)
+        create_summary_bar(data)    # Monthly pie charts (new functionality)
         create_combined_chart(data)
 
         print(f"Workflow completed successfully! \n"
@@ -71,7 +71,7 @@ def main():
               f"- Combined analysis saved to: "
               f"data/combined_analysis.png, "
               f"data/summary_chart.png, "
-              f"data/summary_barchart.png")
+              f"data/summary_bar.png")
 
     except Exception as e:
         print(f"An error occurred during processing: {e}")

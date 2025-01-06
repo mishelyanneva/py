@@ -58,7 +58,7 @@ def create_summary_chart(data):
     plt.close()
 
 
-def create_summary_barchart(data):
+def create_summary_bar(data):
     # Ensure 'Date' column is datetime format
     data['Date'] = pd.to_datetime(data['Date'], errors='coerce')
 
@@ -89,7 +89,7 @@ def create_summary_barchart(data):
 
     # Save the bar chart as an image
     plt.tight_layout()
-    plt.savefig('data/summary_barchart.png', format='png', dpi=300)
+    plt.savefig('data/summary_bar.png', format='png', dpi=300)
     plt.close()
 
 def create_combined_chart(data):
