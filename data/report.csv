@@ -1,7 +1,4 @@
-Category,Subcategory,Amount
-Expense,Other Expense,-2060
-Expense,Rent,-1500
-Expense,Shopping,-240
-Expense,Utilities,-60
-Income,Other Income,5530
-Income,Salary,6500
+Month,total_income,total_expenses
+2024-10,9310,-5870
+2024-11,10320,-5785
+2024-12,9280,-4910

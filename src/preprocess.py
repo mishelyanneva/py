@@ -136,3 +136,25 @@ class FlexibleTableProcessor:
         except Exception as e:
             print(f"Error loading file: {e}")
             return pd.DataFrame()
+
+    @staticmethod
+    def calculate_monthly_summary(df: pd.DataFrame) -> pd.DataFrame:
+        # Ensure 'Date' column is datetime format
+        if 'Date' not in df.columns or 'Amount' not in df.columns:
+            raise ValueError("Both 'Amount' and 'Date' columns are required for summary calculation.")
+
+        df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+
+        # Extract Year-Month for grouping
+        df['Month'] = df['Date'].dt.to_period('M')
+
+        # Calculate total income and expenses
+        monthly_summary = df.groupby('Month').agg(
+            total_income=pd.NamedAgg(column='Amount', aggfunc=lambda x: x[x > 0].sum()),
+            total_expenses=pd.NamedAgg(column='Amount', aggfunc=lambda x: x[x < 0].sum()),
+            balance=pd.NamedAgg(column='Amount', aggfunc='sum')
+        ).reset_index()
+
+        monthly_summary.fillna(0, inplace=True)
+
+        return monthly_summary

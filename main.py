@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+
 from src.preprocess import (
     preprocess_text,
     feature_extraction,
@@ -9,10 +9,9 @@ from src.classify import classify_transaction
 from src.visualize import (
     generate_report,
     create_summary_chart,
-    create_summary_pie,
-    create_combined_chart
+    create_summary_barchart,
+    create_combined_chart,
 )
-
 
 def main():
     # Define file paths
@@ -63,8 +62,8 @@ def main():
 
         # Create visualizations
         print("Creating summary chart visualizations...")
-        create_summary_chart(data)
-        create_summary_pie(data)
+        create_summary_chart(data)  # General summary chart
+        create_summary_barchart(data)    # Monthly pie charts (new functionality)
         create_combined_chart(data)
 
         print(f"Workflow completed successfully! \n"
@@ -72,11 +71,10 @@ def main():
               f"- Combined analysis saved to: "
               f"data/combined_analysis.png, "
               f"data/summary_chart.png, "
-              f"data/summary_pie.png")
+              f"data/summary_barchart.png")
 
     except Exception as e:
         print(f"An error occurred during processing: {e}")
-
 
 if __name__ == "__main__":
     main()
