@@ -21,7 +21,6 @@ def clean_text(description: str) -> str:
     description = re.sub(r'\s+', ' ', description).strip()
     return description
 
-
 def normalize_text(description: str) -> str:
 
     tokens = description.lower().split()
@@ -93,31 +92,27 @@ class FlexibleTableProcessor:
 
         return processed_df
 
-    def _convert_to_numeric(self, series: pd.Series) -> pd.Series:
-
+    @staticmethod
+    def _convert_to_numeric(series: pd.Series) -> pd.Series:
         def parse_numeric(value: Any) -> Union[float, np.nan]:
             if isinstance(value, (int, float)):
                 return value
-
             if isinstance(value, str):
-                # Remove currency symbols and commas
                 value = re.sub(r'[^\d.-]', '', value)
                 try:
                     return float(value)
                 except ValueError:
                     return np.nan
-
             return np.nan
 
         return series.apply(parse_numeric)
 
-    def handle_column_mapping(self,
-                              df: pd.DataFrame,
-                              column_map: Dict[str, str]) -> pd.DataFrame:
+    @staticmethod
+    def handle_column_mapping(df: pd.DataFrame, column_map: Dict[str, str]) -> pd.DataFrame:
         return df.rename(columns=column_map)
 
-    def detect_delimiter(self, file_path: str) -> str:
-
+    @staticmethod
+    def detect_delimiter(file_path: str) -> str:
         with open(file_path, 'r') as f:
             first_line = f.readline().strip()
 

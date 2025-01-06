@@ -1,31 +1,34 @@
-def classify_transaction(description, amount):
+def classify_transaction(description: str, amount: float) -> tuple:
 
     description = description.lower()  # Normalize text
-    if amount > 0:
-        # Income classification
-        if 'salary' in description or 'payroll' in description:
-            subcategory = 'Salary'
-        elif 'bonus' in description or 'commission' in description:
-            subcategory = 'Bonus/Commission'
-        elif 'refund' in description:
-            subcategory = 'Refund'
-        else:
-            subcategory = 'Other Income'
-        category = 'Income'
-    else:
 
-        if 'rent' in description or 'lease' in description:
-            subcategory = 'Rent'
-        elif 'food' in description or 'restaurant' in description or 'groceries' in description:
-            subcategory = 'Food'
-        elif 'travel' in description or 'transport' in description:
-            subcategory = 'Travel'
-        elif 'utility' in description or 'electricity' in description or 'water' in description:
-            subcategory = 'Utilities'
-        elif 'shopping' in description or 'clothes' in description:
-            subcategory = 'Shopping'
-        else:
-            subcategory = 'Other Expense'
+    income_keywords = {
+        'Salary': ['salary', 'payroll', 'wages'],
+        'Bonus/Commission': ['bonus', 'commission', 'incentive'],
+        'Refund': ['refund', 'rebate', 'reimbursement'],
+        'Other Income': []  # Default category for unmatched incomes
+    }
+
+    expense_keywords = {
+        'Rent': ['rent', 'lease'],
+        'Food': ['food', 'restaurant', 'groceries', 'dining'],
+        'Travel': ['travel', 'transport', 'flight', 'hotel'],
+        'Utilities': ['utility', 'electricity', 'water', 'gas'],
+        'Shopping': ['shopping', 'clothes', 'apparel', 'retail'],
+        'Other Expense': []  # Default category for unmatched expenses
+    }
+
+    if amount > 0:  # Income classification
+        category = 'Income'
+        subcategory = next(
+            (key for key, keywords in income_keywords.items() if any(kw in description for kw in keywords)),
+            'Other Income'
+        )
+    else:  # Expense classification
         category = 'Expense'
+        subcategory = next(
+            (key for key, keywords in expense_keywords.items() if any(kw in description for kw in keywords)),
+            'Other Expense'
+        )
 
     return category, subcategory

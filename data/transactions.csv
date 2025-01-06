@@ -1,10 +1,10 @@
 Date,Description,Amount
-2024/12/01,@Salary Payment,6500
+2024.12.01,@Salary Payment,6500
 2024/12/02,PAYPAL *Groceries,-700
 2024/12/03,Rent Payment,-1500
-2024-12-04,Utilities,150
+2024-12-04,PAYPAL * JohnDoe Payment,-150
 2024/12/05,Paypal *Grocery Store,-350
-2024/12/06,Gas,60
+2024/12/06,Gas,-60
 2024/12/07,Freelance Work,1800
 2024/12/08,Car Repair,250
 2024/12/09,Movie Ticket,-25
@@ -15,8 +15,8 @@ Date,Description,Amount
 2024/12/14,Car Wash,-35
 2024/12/15,Haircut,-50
 2024/12/16,Groceries,-300
-2024/12/17,Gas,60
-2024/12/18,Christmas Gift,-120
+2024/12/17,cash withdrawal atm,-60
+2024/12/18,shopping purchase,-120
 2024/12/19,Dinner Out,90
 2024/12/20,Holiday Party,-35
 2024/12/21,New Year's Eve Party,-60

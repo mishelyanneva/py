@@ -1,6 +1,7 @@
 Category,Subcategory,Amount
-Expense,Other Expense,-1970
+Expense,Other Expense,-2060
 Expense,Rent,-1500
-Expense,Shopping,-120
-Income,Other Income,5800
+Expense,Shopping,-240
+Expense,Utilities,-60
+Income,Other Income,5530
 Income,Salary,6500
