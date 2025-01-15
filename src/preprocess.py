@@ -14,7 +14,6 @@ STOP_WORDS = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
 def clean_text(description: str) -> str:
-
     description = re.sub(r'PAYPAL \*', '', description, flags=re.IGNORECASE)
     description = re.sub(r'^(WWW\.|HTTP://|HTTPS://)', '', description, flags=re.IGNORECASE)
     description = re.sub(r'[^a-zA-Z0-9\s]', '', description)
@@ -22,26 +21,22 @@ def clean_text(description: str) -> str:
     return description
 
 def normalize_text(description: str) -> str:
-
     tokens = description.lower().split()
     tokens = [word for word in tokens if word not in STOP_WORDS]
     tokens = [lemmatizer.lemmatize(word) for word in tokens]
     return ' '.join(tokens)
 
 def feature_extraction(texts: List[str], max_features: int = 500):
-
     vectorizer = TfidfVectorizer(max_features=max_features)
     features = vectorizer.fit_transform(texts)
     return features, vectorizer.get_feature_names_out()
 
 def preprocess_text(description: str) -> str:
-
     cleaned = clean_text(description)
     normalized = normalize_text(cleaned)
     return normalized
 
 def _convert_to_datetime(series: pd.Series) -> pd.Series:
-
     try:
         return pd.to_datetime(series, errors='coerce')
     except Exception as e:
@@ -59,7 +54,6 @@ class FlexibleTableProcessor:
         self.numeric_columns = numeric_columns or []
 
     def validate_table_structure(self, df: pd.DataFrame) -> Dict[str, Any]:
-
         analysis = {
             'total_columns': len(df.columns),
             'columns': list(df.columns),
@@ -71,21 +65,16 @@ class FlexibleTableProcessor:
         return analysis
 
     def preprocess_dataframe(self, df: pd.DataFrame) -> pd.DataFrame:
-
-        # Create a copy to avoid modifying original
         processed_df = df.copy()
 
-        # Handle date columns
         for col in self.date_columns:
             if col in processed_df.columns:
                 processed_df[col] = _convert_to_datetime(processed_df[col])
 
-        # Handle numeric columns
         for col in self.numeric_columns:
             if col in processed_df.columns:
                 processed_df[col] = self._convert_to_numeric(processed_df[col])
 
-        # Fill missing columns if required
         for col in self.required_columns:
             if col not in processed_df.columns:
                 processed_df[col] = np.nan
@@ -139,16 +128,13 @@ class FlexibleTableProcessor:
 
     @staticmethod
     def calculate_monthly_summary(df: pd.DataFrame) -> pd.DataFrame:
-        # Ensure 'Date' column is datetime format
         if 'Date' not in df.columns or 'Amount' not in df.columns:
             raise ValueError("Both 'Amount' and 'Date' columns are required for summary calculation.")
 
         df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
 
-        # Extract Year-Month for grouping
         df['Month'] = df['Date'].dt.to_period('M')
 
-        # Calculate total income and expenses
         monthly_summary = df.groupby('Month').agg(
             total_income=pd.NamedAgg(column='Amount', aggfunc=lambda x: x[x > 0].sum()),
             total_expenses=pd.NamedAgg(column='Amount', aggfunc=lambda x: x[x < 0].sum()),

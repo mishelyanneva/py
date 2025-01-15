@@ -40,16 +40,16 @@ Date,Description,Amount
 2024/11/16,Groceries,-500
 2024/11/17,Cash Withdrawal ATM,-100
 2024/11/18,Shopping Purchase,-150
-2024/11/19,Dinner Out,80
+2024/11/19,Dinner Out,-80
 2024/11/16,Food,-300
 2024/11/16,Food,-600
 2024/11/20,Holiday Shopping,-150
 2024/11/21,New Year's Eve Party,-40
 2024/11/22,Groceries,-470
 2024/11/23,Utilities,160
-2024/11/24,Gas,70
-2024/11/25,Car Repair,220
-2024/11/26,Dinner Out,90
+2024/11/24,Gas,-70
+2024/11/25,Car Repair,-220
+2024/11/26,Dinner Out,-90
 2024/11/27,Gym Membership,-60
 2024/11/28,Holiday Party,-35
 2024/11/29,Haircut,-55
@@ -61,10 +61,10 @@ Date,Description,Amount
 2024/12/05,Paypal *Grocery Store,-350
 2024/12/06,Gas,-60
 2024/12/07,Freelance Work,1800
-2024/12/08,Car Repair,250
+2024/12/08,Car Repair,-250
 2024/12/09,Movie Ticket,-25
 2024/12/20,Coffee Shop,-30
-2024/12/11,Dinner Out,90
+2024/12/11,Dinner Out,-90
 2024/12/12,Online Shopping,-120
 2024/12/13,Gym Membership,-60
 2024/12/14,Car Wash,-35
@@ -72,14 +72,14 @@ Date,Description,Amount
 2024/12/16,groceries,-300
 2024/12/17,cash withdrawal atm,-60
 2024/12/18,shopping purchase,-120
-2024/12/19,Dinner Out,90
+2024/12/19,Dinner Out,-50
 2024/12/20,Holiday Party,-35
 2024/12/21,New Year's Eve Party,-60
 2024/12/22,Groceries,-550
 2024/12/23,Utilities,150
-2024/12/24,Gas,60
-2024/12/25,Car Repair,250
-2024/12/26,Dinner Out,90
+2024/12/24,Gas,-60
+2024/12/25,Car Repair,-250
+2024/12/26,Dinner Out,-100
 2024/12/27,Gym Membership,-60
 2024/12/28,Holiday Party,-35
 2024/12/29,Haircut,-50
