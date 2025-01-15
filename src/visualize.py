@@ -93,9 +93,7 @@ def create_combined_chart(data):
     axs[1].tick_params(axis='x', rotation=45)
 
     income_expense_summary = data.groupby(['Month', 'Category'])['Amount'].sum().unstack().fillna(0)
-
     income_expense_summary['Savings'] = income_expense_summary['Income'] + income_expense_summary['Expense']
-
     income_expense_summary = income_expense_summary.fillna(0)
 
     table_data = income_expense_summary[['Income', 'Expense', 'Savings']].reset_index()
